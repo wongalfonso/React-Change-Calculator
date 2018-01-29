@@ -11,7 +11,7 @@
     "start": "npm run build && node server/index.js",
     "build": "webpack",
     "lint": "eslint .",
-    "test": "npm run build && mocha test/.setup.js test/*.spec.js"
+    "test": "mocha test/.setup.js test/*.spec.js"
   },
   "dependencies": {
     "axios": "^0.16.1",
@@ -63,7 +63,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://"
+    "url": "https://github.com/wongalfonso/startnow-react100-change-calculator"
   },
   "license": "MIT"
 }
