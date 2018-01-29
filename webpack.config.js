@@ -7,6 +7,13 @@ module.exports = {
     javascript: './index'
   },
 
+  devServer: {
+    contentBase: [
+      path.join(__dirname, "public"),
+    ],
+    compress: true,
+    port: 3000,
+  },
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
