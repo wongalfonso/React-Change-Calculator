@@ -1,0 +1,9 @@
+deployment: 
+  prod:
+    branch:master
+    heroku:
+      appname: aw-change-calculator
+machine:
+  node:
+    version:8.1.4
+    
