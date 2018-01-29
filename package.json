@@ -8,8 +8,7 @@
     "npm": "5.x.x"
   },
   "scripts": {
-    "dev": "webpack-dev-server",
-    "start": "webpack && node server/index.js",
+    "start": "npm run build && node server/index.js",
     "build": "webpack",
     "lint": "eslint .",
     "test": "npm run build && mocha test/.setup.js test/*.spec.js"
@@ -30,8 +29,7 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "serve-favicon": "^2.0.1",
-    "webpack": "^1.15.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack": "^3.6.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",

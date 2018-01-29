@@ -7,23 +7,19 @@ module.exports = {
     javascript: './index'
   },
 
-  devServer: {
-    contentBase: [
-      path.join(__dirname, "public"),
-    ],
-    compress: true,
-    port: 3000,
-  },
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
   },
-
+  devServer: {
+    inline: false,
+    contentBase: "./dist",
+  },
   resolve: {
     alias: {
       react: path.join(__dirname, 'node_modules', 'react')
     },
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
 
   module: {
