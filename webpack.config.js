@@ -11,10 +11,6 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, '/dist'),
   },
-  devServer: {
-    inline: false,
-    contentBase: "./dist",
-  },
   resolve: {
     alias: {
       react: path.join(__dirname, 'node_modules', 'react')
