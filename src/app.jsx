@@ -30,7 +30,17 @@ export default class ChangeCalc extends Component {
 
     this.setState({ amountRec });
   }
-
+  button() {
+    if (this.state.amountRec.length > 0 && this.state.amountDue.length > 0) {
+      return (
+        <button className='btn btn-primary form-control' type='submit' onClick={this.calculate}>Calculate</button>
+      )
+    } else {
+      return (
+        <button className='btn btn-primary form-control' type='submit' onClick={this.calculate} disabled>Calculate</button>
+      )
+    }
+  }
   calculate(e) {
     e.preventDefault();
     let twenties, tens, fives, ones, quarters, dimes, nickels, pennies, amountLeft;
@@ -47,8 +57,8 @@ export default class ChangeCalc extends Component {
     amountRet3 = amountRet3.toFixed(2);
 
 
-    
-    if (amount > 1999) {      
+
+    if (amount > 1999) {
       twenties = amount / 2000
       amountLeft = amount % 2000;
       twenties = Math.floor(twenties)
@@ -125,7 +135,7 @@ export default class ChangeCalc extends Component {
 
 
   render() {
-    var alert, leftOver;
+    var alert, leftOver, received;
     if (this.state.output > -1) {
       alert = 'alert alert-success changeOutcome';
       leftOver = 'The total change due is $';
@@ -133,6 +143,11 @@ export default class ChangeCalc extends Component {
     if (this.state.output < 0) {
       alert = 'alert alert-danger changeOutcome';
       leftOver = 'You owe a balance of $';
+    }
+    if (this.state.amountRec === "") {
+      received = 'form-group has-feedback has-error'
+    } else {
+      received = 'form-group has-feedback'
     }
     return (
       <div id='changeCalcProject'>
@@ -145,35 +160,23 @@ export default class ChangeCalc extends Component {
               <div className='card card-default'>
                 <div className='card-header changeText'>Enter Information</div>
                 <div className='card-body'>
-                  <label className='changeInputLabel' htmlFor='amountDue'>
-                    How much is due?
-                  </label>
+                <form>
+                  <div className="form-group has-success has-feedback">
+                    <label className='changeInputLabel' htmlFor='amountDue'>How much is due?</label>
+                    <input name='amountDue' className='form-control form-control-success' type='text' pattern='^([1-9]+)([0-9]*)(\.[0-9]{0,2})?$' value={this.state.amountDue} onChange={this.handleDue} id='amountDue' required />
+                    <div className="form-control-feedback">Success! You've done it.</div>                    
+                  </div>
 
-                  <input name='amountDue'
-                    className='form-control'
-                    type='text'
-                    pattern='^[0-9]*(\.[0-9]*)?$'
-                    value={this.state.amountDue}
-                    onChange={this.handleDue}
-                    id='amountDue'
-                  />
-                  <label className='changeInputLabel'
-                    htmlFor='received'>
-                    How much was received?
-                    </label>
-                  <input name='amountReceived'
-                    className='form-control'
-                    type='text'
-                    pattern='^[0-9]*(\.[0-9]*)?$'
-                    value={this.state.amountRec}
-                    onChange={this.handleRec}
-                    id='received' />
+                  <div className={"form-group has-feedback"}>
+                    <label className='changeInputLabel' htmlFor='received'> How much was received?</label>
+                    <input name='amountReceived' className='form-control' type='text' pattern='^([1-9]+)([0-9]*)(\.[0-9]{0,2})?$' value={this.state.amountRec} onChange={this.handleRec} id='received' required />
+                    <span className="glyphicon glyphicon-remove form-control-feedback"></span>
+                  </div>
+                </form>
                 </div>
                 <div className='card-footer'>
                   <div className='form-group'>
-                    <button className='btn btn-primary form-control' type='submit' onClick={this.calculate}>
-                      Calculate
-                    </button>
+                    {this.button()}
                   </div>
                 </div>
               </div>
@@ -227,7 +230,12 @@ export default class ChangeCalc extends Component {
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
+          <div className='row closeRow'>
+            <div className="col-12">
+              <button className='btn btn-danger float-right form-control-xl closeBtn' onClick={this.props.close}>Close</button>
+            </div>
+          </div>
         </div >
       </div>
     )

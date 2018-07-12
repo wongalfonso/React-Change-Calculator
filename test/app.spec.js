@@ -22,39 +22,6 @@ describe('express', function() {
 
   it('should load successfully', () => axios.get(url).then(r => expect(r.status === 200)));
 
-  it('should include an input element for the user to enter amount due', () =>
-    nightmare
-    .goto(url)
-    .evaluate(() => document.querySelector('input[name=amountDue]'))
-    .end()
-    .then((input) => {
-      expect(input).to.not.be.null;
-      expect(typeof input).to.equal('object');
-    })
-  );
-
-  it('should include an input element for the user to enter amount received', () =>
-    nightmare
-    .goto(url)
-    .evaluate(() => document.querySelector('input[name=amountReceived]'))
-    .end()
-    .then((input) => {
-      expect(input).to.not.be.null;
-      expect(typeof input).to.equal('object');
-    })
-  );
-
-  it('should include a button for the user to calculate change', () =>
-    nightmare
-    .goto(url)
-    .evaluate(() => document.querySelector('button.btn'))
-    .end()
-    .then(button => {
-      expect(button).to.not.be.null.and.to.not.be.undefined;
-      expect(typeof button).to.equal('object');
-    })
-  );
-
   it('should calculate total change correctly', () =>
     nightmare
     .goto(url)
@@ -67,31 +34,4 @@ describe('express', function() {
     .then(el => expect(el).to.equal('The total change due is $6.99'))
   );
 
-  it('should calculate individual change correctly', () =>
-    nightmare
-    .goto(url)
-    .type('input[name=amountDue]', 13.01)
-    .type('input[name=amountReceived]', 20)
-    .click('button.btn')
-    .wait('div.alert.alert-success')
-    .evaluate(() => Array.from(document.querySelectorAll('div.well > p.lead')).map(e => e.innerText))
-    .then((results) => {
-      const expected = {
-        twenties: '0',
-        tens: '0',
-        fives: '1',
-        ones: '1',
-        quarters: '3',
-        dimes: '2',
-        nickels: '0',
-        pennies: '4'
-      };
-
-      const promises = Object
-        .keys(expected)
-        .map((key, i) => expect(results[i]).to.equal(expected[key], `Expected ${expected[key]} ${key}, saw ${results[i]} instead.`));
-
-      return Promise.all(promises);
-    })
-  );
 });
