@@ -231,11 +231,6 @@ export default class ChangeCalc extends Component {
               </div>
             </div>
           </div>
-          <div className='row closeRow'>
-            <div className="col-12">
-              <button className='btn btn-danger float-right form-control-xl closeBtn' onClick={this.props.close}>Close</button>
-            </div>
-          </div>
         </div >
       </div>
     )
