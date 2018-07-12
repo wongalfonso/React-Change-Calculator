@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import './stylesheets/styles.css';
 
-export default class ChangeCalc extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
