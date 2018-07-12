@@ -163,8 +163,7 @@ export default class ChangeCalc extends Component {
                 <form>
                   <div className="form-group has-success has-feedback">
                     <label className='changeInputLabel' htmlFor='amountDue'>How much is due?</label>
-                    <input name='amountDue' className='form-control form-control-success' type='text' pattern='^([1-9]+)([0-9]*)(\.[0-9]{0,2})?$' value={this.state.amountDue} onChange={this.handleDue} id='amountDue' required />
-                    <div className="form-control-feedback">Success! You've done it.</div>                    
+                    <input name='amountDue' className='form-control form-control-success' type='text' pattern='^([1-9]+)([0-9]*)(\.[0-9]{0,2})?$' value={this.state.amountDue} onChange={this.handleDue} id='amountDue' required />                                    
                   </div>
 
                   <div className={"form-group has-feedback"}>
