@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import "./stylesheets/styles.css"
 
-
-class App extends Component {
-  constructor() {
-    super();
+export default class ChangeCalc extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      amountDue: "",
-      amountRec: "",
-      twenties: "0",
-      tens: "0",
-      fives: "0",
-      ones: "0",
-      quarters: "0",
-      dimes: "0",
-      nickels: "0",
-      pennies: "0",
-      output: "0",
+      amountDue: '',
+      amountRec: '',
+      twenties: '0',
+      tens: '0',
+      fives: '0',
+      ones: '0',
+      quarters: '0',
+      dimes: '0',
+      nickels: '0',
+      pennies: '0',
+      output: '0',
     }
     this.handleDue = this.handleDue.bind(this);
     this.handleRec = this.handleRec.bind(this);
@@ -24,34 +22,35 @@ class App extends Component {
   }
 
   handleDue(event) {
-    const amountDue = (event.target.validity.valid) ? event.target.value : this.state.amountDue; 
-    this.setState({amountDue});
+    const amountDue = (event.target.validity.valid) ? event.target.value : this.state.amountDue;
+    this.setState({ amountDue });
   }
   handleRec(event) {
-    const amountRec = (event.target.validity.valid) ? event.target.value : this.state.amountRec; 
-    
-    this.setState({amountRec});
+    const amountRec = (event.target.validity.valid) ? event.target.value : this.state.amountRec;
+
+    this.setState({ amountRec });
   }
 
   calculate(e) {
     e.preventDefault();
+    let twenties, tens, fives, ones, quarters, dimes, nickels, pennies, amountLeft;
     let amountDue = this.state.amountDue;
+    let amountRec = this.state.amountRec;
     amountDue = parseFloat(amountDue);
     amountDue = amountDue * 100;
-    let amountRec = this.state.amountRec;
     amountRec = parseFloat(amountRec)
     amountRec = amountRec * 100;
-    let amountLeft = amountRec - amountDue;
-    let amountRet2 = amountRec - amountDue;
-    amountRet2 = amountRet2 / 100;
-    amountRet2 = amountRet2.toFixed(2);
+
+    let amount = amountRec - amountDue;
+    let amountRet3 = amountRec - amountDue;
+    amountRet3 = amountRet3 / 100;
+    amountRet3 = amountRet3.toFixed(2);
+
+
     
-
-    let twenties, tens, fives, ones, quarters, dimes, nickels, pennies;
-
-    if (amountLeft > 1999) {
-      amountLeft = amountLeft % 2000;
-      twenties = amountLeft/ 2000
+    if (amount > 1999) {      
+      twenties = amount / 2000
+      amountLeft = amount % 2000;
       twenties = Math.floor(twenties)
       twenties = twenties.toFixed();
     } else {
@@ -112,117 +111,125 @@ class App extends Component {
       pennies = 0
     }
     this.setState({
-      twenties : twenties,
-      tens : tens,
-      fives : fives,
-      ones : ones,
-      quarters : quarters,
-      dimes : dimes,
-      nickels : nickels,
-      pennies : pennies,
-      output : amountRet2
+      twenties: twenties,
+      tens: tens,
+      fives: fives,
+      ones: ones,
+      quarters: quarters,
+      dimes: dimes,
+      nickels: nickels,
+      pennies: pennies,
+      output: amountRet3
     })
-    console.log(this.state.twenties);
   }
-  
+
 
   render() {
+    var alert, leftOver;
+    if (this.state.output > -1) {
+      alert = 'alert alert-success changeOutcome';
+      leftOver = 'The total change due is $';
+    }
+    if (this.state.output < 0) {
+      alert = 'alert alert-danger changeOutcome';
+      leftOver = 'You owe a balance of $';
+    }
     return (
-      <div className="container">
-        <header><h1>Change Calculator</h1></header>
-          <div className="row">
-            <div className="col-lg-4">
-              <div className="panel panel-default">
-                <div className="panel-heading">Enter Information</div>
-                <div className="panel-body">
-                    <label  className="inputLabel" 
-                            htmlFor="amountDue">
-                            How much is due?
+      <div id='changeCalcProject'>
+        <div className='container changeContainer'>
+          <div id='changeHeader'><h1>Change Calculator</h1></div>
+
+          <div className='row'>
+
+            <div className='col-4'>
+              <div className='card card-default'>
+                <div className='card-header changeText'>Enter Information</div>
+                <div className='card-body'>
+                  <label className='changeInputLabel' htmlFor='amountDue'>
+                    How much is due?
+                  </label>
+
+                  <input name='amountDue'
+                    className='form-control'
+                    type='text'
+                    pattern='^[0-9]*(\.[0-9]*)?$'
+                    value={this.state.amountDue}
+                    onChange={this.handleDue}
+                    id='amountDue'
+                  />
+                  <label className='changeInputLabel'
+                    htmlFor='received'>
+                    How much was received?
                     </label>
-                    <input  name = "amountDue"
-                            className="form-control" 
-                            type = "text" 
-                            pattern = "^[0-9]*(\.[0-9]*)?$" 
-                            value ={this.state.amountDue}  
-                            onChange={this.handleDue} 
-                            id="amountDue"
-                             />
-                    <label  className="inputLabel" 
-                            htmlFor="received">
-                            How much was received?
-                    </label>
-                    <input  name = "amountReceived"
-                            className="form-control" 
-                            type = "text" 
-                            pattern = "^[0-9]*(\.[0-9]*)?$" 
-                            value ={this.state.amountRec}  
-                            onChange={this.handleRec}   
-                            id="received" />
+                  <input name='amountReceived'
+                    className='form-control'
+                    type='text'
+                    pattern='^[0-9]*(\.[0-9]*)?$'
+                    value={this.state.amountRec}
+                    onChange={this.handleRec}
+                    id='received' />
                 </div>
-                <div className="panel-footer">
-                  <div className = "form-group">
-                    <button className="btn btn-primary form-control" 
-                            type ="submit" 
-                            onClick = {this.calculate}>
-                            Calculate
+                <div className='card-footer'>
+                  <div className='form-group'>
+                    <button className='btn btn-primary form-control' type='submit' onClick={this.calculate}>
+                      Calculate
                     </button>
                   </div>
-              </div>
-              </div>
-            </div>
-
-            <div className="col-lg-8">
-              <div className="panel">
-              <div className="panel-body">
-                <div className = "row">
-                  <div className="alert alert-success outcome">The total change due is ${this.state.output}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Twenties</h1>
-                    <p className = "lead outputs">{this.state.twenties}</p>
-                  </div>
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Tens</h1>
-                    <p className = "lead outputs">{this.state.tens}</p>
-                  </div>
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Fives</h1>
-                    <p className = "lead outputs">{this.state.fives}</p>
-                  </div>
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Ones</h1>
-                    <p className = "lead outputs">{this.state.ones}</p>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Quarters</h1>
-                    <p className = "lead outputs">{this.state.quarters}</p>
-                  </div>
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Dimes</h1>
-                    <p className = "lead outputs">{this.state.dimes}</p>
-                  </div>
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Nickels</h1>
-                    <p className = "lead outputs">{this.state.nickels}</p>
-                  </div>
-                  <div className="form-group well col-md-2 outputLabels alert alert-success">
-                    <h1 className="labels">Pennies</h1>
-                    <p className = "lead outputs">{this.state.pennies}</p>
-                  </div>
-                </div>
                 </div>
               </div>
             </div>
-          </div>
-      </div >
 
+            <div className='col-8'>
+              <div className='card'>
+                <div className='card-body'>
+
+                  <div className='row'>
+                    <div className={alert}> {leftOver + this.state.output}
+                    </div>
+                  </div>
+                  <div className='row'>
+                    <div className='well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Twenties</h1>
+                      <p className='lead changeOutputs'>{this.state.twenties}</p>
+                    </div>
+                    <div className='well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Tens</h1>
+                      <p className='lead changeOutputs'>{this.state.tens}</p>
+                    </div>
+                    <div className='well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Fives</h1>
+                      <p className='lead changeOutputs'>{this.state.fives}</p>
+                    </div>
+                    <div className='well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Ones</h1>
+                      <p className='lead changeOutputs'>{this.state.ones}</p>
+                    </div>
+                  </div>
+
+                  <div className='row'>
+                    <div className='form-group well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Quarters</h1>
+                      <p className='lead changeOutputs'>{this.state.quarters}</p>
+                    </div>
+                    <div className='form-group well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Dimes</h1>
+                      <p className='lead changeOutputs'>{this.state.dimes}</p>
+                    </div>
+                    <div className='form-group well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Nickels</h1>
+                      <p className='lead changeOutputs'>{this.state.nickels}</p>
+                    </div>
+                    <div className='form-group well ChangeOutputLabels alert alert-success'>
+                      <h1 className='changeLabels'>Pennies</h1>
+                      <p className='lead changeOutputs'>{this.state.pennies}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>          
+        </div >
+      </div>
     )
   }
-}
-
-export default App;
+};
